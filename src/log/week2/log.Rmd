@@ -1,8 +1,18 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# week 2 log
+
+This week I mainly worked on cleaning my dataset. I spent a total of 2 hours doing this task.
+
+```{r}
 library(ggplot2)
 
 # Create a data frame with tasks and time spent
 task_data <- data.frame(
-  Task = c("Searching and Dataset", "creating visualization (chart)", "data cleaning"),
+  Task = c("Searching Dataset", "creating visualization", "data cleaning"),
   Hours = c(2, 0.5, 2),
   Week = c("Week 1","Week 1", "week2")
 )
@@ -15,3 +25,4 @@ ggplot(task_data, aes(x=Task, y=Hours)) +
   ylab("Hours Spent") +
   facet_wrap(~Week) +
   theme_minimal()
+```
