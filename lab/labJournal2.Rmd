@@ -65,6 +65,7 @@ Attributes: Any additional attributes that the object might have.
 
 ```{r}
 my_data <- read.csv("/Users/keiichiro_watanabe/Desktop/CSC324/IndividualProject/data/OnlineNewsPopularity.csv")
+head(my_data)
 ```
 
 ### 2

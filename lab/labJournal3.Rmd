@@ -1,0 +1,255 @@
+---
+title: "LabJournal3"
+author: "Keiichiro Watanabe"
+date: "2023-09-11"
+output: pdf_document
+editor_options: 
+  markdown: 
+    wrap: sentence
+---
+
+# Part 1: Visualizing Data in R
+
+## 1
+
+```{r}
+library(magrittr)
+# Create a simple data frame
+df <- data.frame(a = 1:5, b = 6:10)
+# Using %$% to directly refer to columns a and b
+result <- df %$% {
+  c(mean(a), mean(b))
+}
+print(result)
+```
+
+## 4
+
+```{r}
+library(qrcode)
+
+# Generate QR code for a personal website
+qr_code_website <- qr_code("https://keiichiro1101.github.io/")
+
+# Save QR code as a PNG image
+png("personal_website_qr.png")
+plot(qr_code_website)
+dev.off()
+```
+
+```{r}
+# Generate QR code for linkedin
+qr_code_linkedin <- qr_code("www.linkedin.com/in/keiichiro-watanabe-b1949526b")
+
+# Save QR code as a PNG image with a different name
+png("linkedin_qr.png")
+# Plot with custom colors
+plot(qr_code_linkedin, col = c("blue", "yellow"))
+dev.off()
+```
+
+## 5
+
+```{r}
+# Generate random data
+data <- rnorm(1000, mean = 50, sd = 10)
+
+# Plot histogram using Base R
+hist(data, main = "Histogram using Base R", xlab = "Value", ylab = "Frequency", col = "lightblue", border = "black")
+```
+
+```{r}
+library(ggplot2)
+
+# Create a data frame
+data_df <- data.frame(Value = data)
+
+# Plot histogram using ggplot2
+ggplot(data_df, aes(x = Value)) +
+  geom_histogram(binwidth = 1, fill = "blue", alpha = 0.7) +
+  ggtitle("Histogram using ggplot2") +
+  xlab("Value") +
+  ylab("Frequency")
+```
+
+```{r}
+library(lattice)
+# Plot histogram using histogram function from lattice
+histogram(~data, main = "Histogram using lattice", xlab = "Value", ylab = "Frequency", col = "gray")
+```
+
+## 6
+
+### 1
+
+Variables: These include url, timedelta, n_tokens_title, n_tokens_content, n_unique_tokens, num_hrefs, num_self_hrefs, num_imgs, etc.
+
+Observations: Each row in the data frame is an observation, describing various characteristics of a single article, such as its URL, how many tokens are in the title and content, the number of images, etc.
+
+Values: Values are the individual data points in the cells of the data frame.
+For example, in the first row, the value of timedelta is 731, and the value of n_tokens_title is 12.
+
+### 2
+
+#### What is Pivoting?
+
+Pivoting is a way to reshape the data; you might convert data from a "long" format to a "wide" format or vice versa.
+This can be done using functions like pivot_longer() and pivot_wider() in R.
+
+#### When is Pivoting Useful?
+
+Data Analysis: Pivoting can help rearrange data in a way that makes it easier to analyze.
+
+Data Visualization: Pivoting helps make data more compatible for various types of graphs.
+For example, a longer format could be more suitable for line plots.
+
+Data Aggregation: When wanting to summarize data, the shape of the data can make a difference.
+Sometimes, it's easier to aggregate data in a long format, while other times a wide format is more convenient.
+
+Example of Pivoting
+
+```{r}
+library(tidyverse)
+
+my_data <- read.csv("/Users/keiichiro_watanabe/Desktop/CSC324/IndividualProject/data/OnlineNewsPopularity.csv")
+
+# Convert to longer format
+my_data_long <- my_data %>%
+  pivot_longer(cols = starts_with("data_channel_is_"), names_to = "Data_Channel", values_to = "Is_Channel_Active")
+
+# Now, group by the data channel and summarize
+my_data_summary <- my_data_long %>%
+  filter(Is_Channel_Active == 1) %>%
+  group_by(Data_Channel) %>%
+  summarize(Avg_Shares = mean(shares, na.rm = TRUE))
+```
+
+## 7
+
+### 1
+
+The diagram illustrates the relationships between various tables (airlines, airports, planes, and weather) in the nycflights13.
+The diagram serves to illustrate how these tables are related to the central flights table.
+In a relational database, this setup would facilitate complex queries across multiple tables, allowing us to gather detailed information for any given flight easily.
+
+### 2
+
+#### Primary Keys
+
+A primary key is a column (or set of columns) in a table whose values uniquely identify each row in that table.
+The primary key must contain unique values, and it cannot contain NULL values.
+A table can have only one primary key, which may consist of single or multiple columns.
+For example, tailnum could be a primary key for the planes table, carrier could be a primary key for the airlines table, and faa could be a primary key for the airports table.
+
+#### Foreign Keys
+
+A foreign key is a column (or set of columns) in one table that serves as a reference to the primary key in another table.
+The table that contains the foreign key is called the "referencing" or "child" table, and the table being referred to by the foreign key is the "referenced" or "parent" table.
+Foreign keys enforce referential integrity, ensuring that the relationship between tables remains consistent.
+In the flights table, the columns tailnum, carrier, origin, and dest are foreign keys connecting to the primary keys in the planes, airlines, and airports tables, respectively.
+
+## 8
+
+### Key Variables:
+
+Article Popularity: Measured by the number of social media shares.
+
+Content: Various metrics about the content of the articles such as 'n_tokens_title', 'n_tokens_content', etc.
+
+Timing: Features like 'timedelta', which could represent the time since the article was published.
+
+Sentiment: Metrics like 'global_sentiment_polarity', 'rate_positive_words', etc., that might capture the sentiment of the article.
+
+### What the Scatterplot Matrix Could Reveal:
+
+Correlation with Popularity: we can identify which variables have the strongest correlation with the number of shares.
+For example, articles with a higher 'global_sentiment_polarity' might be shared more often.
+
+Content-Length vs. Shares: scatterplot between 'n_tokens_content' (article length) and 'shares' might reveal if longer articles are more popular or if there's a sweet spot in article length that maximizes shares.
+
+Timing and Popularity: plotting 'timedelta' against 'shares', could explore whether articles gain more shares as they age or if newer articles tend to be more popular.
+
+Sentiment and Popularity: sentiment variables like 'global_sentiment_polarity' or 'rate_positive_words' might show how the emotional tone of an article influences its likelihood of being shared.
+
+```{r}
+# Select specific columns for the scatterplot matrix
+selected_columns <- my_data[, c("shares", "n_tokens_title", "n_tokens_content", "timedelta", "global_sentiment_polarity")]
+
+# Generate the scatterplot matrix
+plot(selected_columns)
+
+```
+
+## 9
+
+Word clouds are visual representations of text data where the frequency of each word is represented by its size in the cloud.
+The more frequently a particular word appears in a text, the larger and bolder it appears in the word cloud.
+
+Word clouds are often used for: Data Visualization: They can give a quick overview of the most prominent terms in a large corpus of text.
+SEO Analysis: They can be used to summarize key terms that should be included on a webpage.
+Text Mining: They can serve as a starting point for more detailed text mining efforts.
+
+Limitations: Lack of Context: They show words without context, so synonymous terms or phrases that mean the same thing can appear separately.
+Not Quantitative: The size difference between words doesn't convey precise numerical differences in frequency.
+
+```{r}
+library(wordcloud)
+
+# Sample text data
+text <- c("Data", "Science", "R", "Python", "Machine", "Learning", "Statistics", "Data", "Visualization")
+
+# Create word cloud
+wordcloud(text, min.freq = 1, random.order = FALSE)
+```
+
+# Part 2: Reflection and questions on readings
+
+## 1
+
+Perspective distortion has the capabilities to take away from the greater data set by altering the overall meaning that the user can derive from the data.
+Sometimes a three dimensional rendering can take away from the user's understanding due to the complex nature of the figures given.
+Contour plots are incredibly useful for both two dimensional and three dimensional of data renderings.
+
+## 2
+
+### 1. Timing and Popularity
+
+What: Analyze the relationship between the age of Mashable articles ('timedelta') and their popularity ('shares').
+
+Why: To discover if articles gain more shares as they age or if newer articles tend to be more popular.
+
+How: A scatterplot where the X-axis represents the age of the article and the Y-axis represents the number of shares.
+Each point is an article.
+Findings:
+
+If the plot shows an upward trend, it could mean that articles gain more shares as they age.
+A downward trend could imply that newer articles are more popular.
+No pattern may indicate that timing is not a strong factor in an article's popularity.
+
+### 2. Sentiment and Popularity
+
+What: Examine the relationship between sentiment variables ('global_sentiment_polarity', 'rate_positive_words') and the popularity of Mashable articles ('shares').
+
+Why: To determine how the emotional tone of an article influences its likelihood of being shared.
+
+How: A scatterplot where the X-axis could represent 'global_sentiment_polarity' or 'rate_positive_words' and the Y-axis represents the number of shares.
+Each point is an article.
+Findings:
+
+If the points cluster towards the top right, it might indicate that articles with a more positive tone get more shares.
+If points cluster towards the top left, it could mean that articles with a more negative tone are more popular.
+No pattern might suggest that sentiment does not significantly affect an article's popularity.
+
+# Reference
+
+Name(s) of all authors: Keiichiro Watanabe, Megan Bernacchi
+
+Lab: Lab Journal 2
+
+Due Monday, 11 September 2023
+
+Written/online sources used: (enter "none" if no sources other than the textbook and course website used) : none
+
+Help obtained (Acknowledgments): none
+
+"I/we confirm that the above list of sources is complete AND that I/we have not talked to anyone else about the solution to this problem."
