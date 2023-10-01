@@ -7,7 +7,7 @@ options(shiny.maxRequestSize = 100 * 1024^2)
 ui <- fluidPage(
   tags$head(
     tags$style(HTML('
-      body {
+            body {
         background-color: #f0f0f0; /* Light gray background */
         color: #333333; /* Dark gray text color */
       }
@@ -32,7 +32,6 @@ ui <- fluidPage(
       .navbar-inverse .navbar-form .form-group {
         color: navy; /* White text color for form groups */
       }
-      /* Customize the tab panel style */
       .nav-tabs > li > a {
         background-color: navy; /* Dark blue tabs */
         color: #ffffff; /* White text color for tabs */
@@ -54,7 +53,9 @@ ui <- fluidPage(
                 label = "Upload your dataset (CSV)",
                 accept = c("text/csv"),
                 multiple = FALSE,
-                width = "80%")
+                width = "80%"),
+      # Add a link to download the PDF file
+      downloadLink("dataDescriptionLink", "Download Data Description")
     ),
 
     mainPanel(
@@ -153,6 +154,15 @@ server <- function(input, output) {
     }
   })
 
+  # Add a function to generate the PDF download link
+  output$dataDescriptionLink <- downloadHandler(
+    filename = function() {
+      "dataDescription.pdf"
+    },
+    content = function(file) {
+      file.copy("/Users/keiichiro_watanabe/Desktop/CSC324/IndividualProject/data/dataDescription.pdf", file)
+    }
+  )
 }
 
 shinyApp(ui, server)
