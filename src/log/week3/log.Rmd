@@ -1,0 +1,28 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# week 3 log
+
+This week I mainly worked on creating data descriptions. I spent a total of 6 hours doing this task.
+
+```{r}
+library(ggplot2)
+
+# Create a data frame with tasks and time spent
+task_data <- data.frame(
+  Task = c("creating data description", "creating visuals"),
+  Hours = c(4, 2),
+  Week = c("Week 3","Week 3")
+)
+
+# Generate a bar chart
+ggplot(task_data, aes(x=Task, y=Hours)) +
+  geom_bar(stat="identity", fill="green") +
+  ggtitle("Time Spent on Tasks This Week") +
+  xlab("Tasks") +
+  ylab("Hours Spent") +
+  facet_wrap(~Week) +
+  theme_minimal()
+```
