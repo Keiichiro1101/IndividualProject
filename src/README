@@ -1,0 +1,36 @@
+# Data Analysis on Article Popularity
+
+![App Screenshot]
+
+This Shiny application allows users to analyze the popularity of articles using a provided dataset. You can explore statistics, histograms, and more to gain insights into article sharing patterns.
+
+
+## Installation
+
+Before running the application, make sure you have the required R packages installed. You can do this by running the following commands in R or RStudio:
+
+```R
+install.packages("shiny")
+install.packages("ggplot2")
+```
+
+## Running the Application
+To run the application locally, follow these steps:
+
+Clone the repository to your local machine:
+
+1. git clone https://github.com/Keiichiro1101/IndividualProject.git
+2. Open R or RStudio.
+3. Set the working directory to the location of the cloned repository.
+4. Run the following R code to launch the Shiny app:
+
+library(shiny)
+library(ggplot2)
+
+# Run the Shiny app
+shiny::runApp("src")
+
+
+## Data Sources
+The application uses a sample dataset included in the repository. You can also download the data from the Shiny app.
+

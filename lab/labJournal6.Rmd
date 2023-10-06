@@ -1,0 +1,70 @@
+---
+title: "labJournal6"
+author: "Keiichiro Watanabe"
+date: "2023-10-06"
+output: html_document
+---
+
+# Part 0: 3 things I learned.
+We can use shinyjs::animate to add a fade-in animation to the data table when it's loaded.
+
+Using the fluidPage function we can include UI that includes a title, a sidebar panel, and a main panel with multiple tabs.
+
+We use the plot_ly function to create the histogram instead of ggplot. The plot_ly function is from the plotly package and provides interactive and animated plot capabilities.
+
+# Part 1: R & Shiny
+
+## 1
+
+
+## 2
+Dates and Date-Times Handling:
+
+I can enhance date and time handling in the app involves clear labeling of time-based axes, enabling date-based filtering through interactive widgets, and offering insightful time-related visualizations. By doing this users should have the ability to explore trends and patterns over time, with options to switch between different time dynamically. To illustrate, it would be convenient to let users select what dates the article were published, and compare number of shares article published on that day has.
+
+User Experience:
+
+I can enhancing user experience by creating an intuitive and user-friendly interface with clear labels and instructions. Tooltips or pop-ups can provide context. Further, a well-structured navigation menu or tabset aids will users in seamlessly switching between different sections or visualizations, improving overall usability.
+
+## 3
+
+![Screenshot](/Users/keiichiro_watanabe/Desktop/スクリーンショット 2023-10-01 18.15.14.png)
+
+# Part 2: Reflection and questions on readings
+## 1
+### Write at least five questions to help guide/structure your first meeting with your community partner.
+
+What would be a good expectation and a good starting point for the project? What kind of milestones can we set?
+
+How is data gathered in Unity?
+
+David mentioned in the guest speaker lecture that he is working with Carlton College students on a VR project (Rowing games, playing music within the VR environment…). What are the features of the VR game that Carlton college has been working on? Can we maybe collaborate with them?
+
+Do we have access to prior VR data? What are data types?(qualitive, quantitative?)
+
+What would be a convienient chat tool to keep in touch. (Teams, email, slack? etc.)
+
+### What must you agree with your team and community partner in your kick-off meeting?
+
+Ensure everyone understands the project's scope, goals, and objectives. Discuss what the project entails and what you aim to achieve.
+
+Establish a clear communication plan. Determine how we will communicate with our team members and the community partner throughout the project. This can include preferred communication channels, meeting schedules, and reporting mechanisms.
+
+Identify the most pressing tasks and immediate next steps, such as learning the ARCS Model and defining questions for the pre-imposed assessment.
+
+Clearly define the expected end product, including documentation, data (in CSV format), and any scripts or software components required for data analysis (such as R scripts).
+
+
+# Reference
+
+Name(s) of all authors: Keiichiro Watanabe, Riku Smuriga
+
+Lab: Lab Journal 6
+
+Due Monday, 8 October, 2023
+
+Written/online sources used: (enter "none" if no sources other than the textbook and course website used) : none
+
+Help obtained (Acknowledgments): none
+
+"I/we confirm that the above list of sources is complete AND that I/we have not talked to anyone else about the solution to this problem."
