@@ -1,6 +1,7 @@
 library(shinyjs)
 library(shiny)
 library(ggplot2)
+library(corrplot)
 
 options(shiny.maxRequestSize = 100 * 1024^2)
 
@@ -55,7 +56,9 @@ ui <- fluidPage(
                 multiple = FALSE,
                 width = "80%"),
       # Add a link to download the PDF file
-      downloadLink("dataDescriptionLink", "Download Data Description")
+      downloadLink("dataDescriptionLink", "Download Data Description"),
+      br(),
+      downloadLink("dataDownloadLink", "Download Data (CSV)")
     ),
 
     mainPanel(
@@ -63,9 +66,10 @@ ui <- fluidPage(
       tabsetPanel(type = "tabs",
                   tabPanel("Data", dataTableOutput("outFile")),
                   tabPanel("Statistics", h1("Statistics"), verbatimTextOutput("statistics")),
-                  tabPanel("Histograms", h1("Histograms"), plotOutput("histograms")),
-                  tabPanel("Shares by Day", h1("Shares by Day"), tableOutput("sharesByDay")),
-                  tabPanel("Shares vs. Title Length", h1("Shares vs. Title Length"), plotOutput("sharesVsTitleLength"))
+                  tabPanel("Shares vs. Day Published", h1("Shares vs. Day Published"), plotOutput("histograms")),
+                  tabPanel("Shares vs. Title Length", h1("Shares vs. Title Length"), plotOutput("sharesVsTitleLength")),
+                  tabPanel("Shares vs Topic Heatmap", h1("Shares vs Topic Heatmap"), plotOutput("categoricalHeatmap")),
+                  tabPanel("Shares vs. Number of Links", h1("Shares vs. Number of Links"), plotOutput("interestingPlot"))
       )
     )
   )
@@ -122,31 +126,12 @@ server <- function(input, output) {
     }
   })
 
-  output$sharesByDay <- renderTable({
-    data <- inFile()
-    if (!is.null(data)) {
-      day_columns <- c("weekday_is_monday", "weekday_is_tuesday", "weekday_is_wednesday",
-                       "weekday_is_thursday", "weekday_is_friday", "weekday_is_saturday", "weekday_is_sunday")
-
-      day_names <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
-      shares_by_day <- sapply(data[, day_columns], function(col) {
-        sum(data$shares * col)
-      })
-      mean_shares_by_day <- sapply(data[, day_columns], function(col) {
-        mean(data$shares * col)
-      })
-
-      day_shares <- data.frame(Day = day_names, Total_Shares = shares_by_day, Mean_Shares = mean_shares_by_day)
-      day_shares
-    }
-  })
-
   output$sharesVsTitleLength <- renderPlot({
     data <- inFile()
     if (!is.null(data)) {
       ggplot(data, aes(x = n_tokens_title, y = shares)) +
         geom_point() +
-        labs(title = "Scatter Plot: Shares vs. Title Length",
+        labs(title = "Scatterplot of Shares vs. Title Length",
              x = "Number of Words in Title",
              y = "Number of Shares") +
         theme_minimal() +
@@ -154,13 +139,75 @@ server <- function(input, output) {
     }
   })
 
-  # Add a function to generate the PDF download link
+output$categoricalHeatmap <- renderPlot({
+  data <- inFile()
+  if (!is.null(data)) {
+    subset_data <- data[, c(
+      "data_channel_is_lifestyle",
+      "data_channel_is_entertainment",
+      "data_channel_is_bus",
+      "data_channel_is_socmed",
+      "data_channel_is_tech",
+      "data_channel_is_world",
+      "shares" # Target variable
+    )]
+
+    correlation_matrix <- cor(subset_data, method = "pearson")
+
+    colnames(correlation_matrix) <- c(
+      "Lifestyle",
+      "Entertainment",
+      "Business",
+      "Social Media",
+      "Tech",
+      "World",
+      "Shares" # Target variable
+    )
+
+    rownames(correlation_matrix) <- colnames(correlation_matrix)
+
+    par(mar = c(1, 1, 1, 1))
+    corrplot(
+      correlation_matrix,
+      method = "color",
+      type = "upper",
+      tl.col = "black",
+      tl.cex = 0.7,
+      tl.srt = 45,
+      addrect = 6,
+      is.corr = FALSE # Show legend
+    )
+  }
+})
+
+  output$interestingPlot <- renderPlot({
+    data <- inFile()
+    if (!is.null(data)) {
+      ggplot(data, aes(x = num_hrefs, y = shares)) +
+        geom_point() +
+        labs(title = "Scatterplot of Shares vs. Number of Links",
+             x = "Number of Links",
+             y = "Number of Shares") +
+        theme_minimal() +
+        theme(plot.title = element_text(hjust = 0.5))
+    }
+  })
+
   output$dataDescriptionLink <- downloadHandler(
     filename = function() {
       "dataDescription.pdf"
     },
     content = function(file) {
       file.copy("/Users/keiichiro_watanabe/Desktop/CSC324/IndividualProject/data/dataDescription.pdf", file)
+    }
+  )
+
+  output$dataDownloadLink <- downloadHandler(
+    filename = function() {
+    "data.csv"
+    },
+    content = function(file) {
+      file.copy("/Users/keiichiro_watanabe/Desktop/CSC324/IndividualProject/data/OnlineNewsPopularity.csv", file)
     }
   )
 }
