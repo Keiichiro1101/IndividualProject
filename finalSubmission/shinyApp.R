@@ -68,11 +68,11 @@ ui <- fluidPage(
       style = "background-color: #ffffff; color: #333333;",
       tabsetPanel(type = "tabs",
                   tabPanel("Data", dataTableOutput("outFile")),
-                  tabPanel("Statistics", h1("Statistics"), verbatimTextOutput("statistics")),
-                  tabPanel("Shares vs. Day Published", h1("Shares vs. Day Published"), plotOutput("histograms")),
-                  tabPanel("Shares vs. Title Length", h1("Shares vs. Title Length"), plotOutput("sharesVsTitleLength")),
-                  tabPanel("Shares vs Topic Heatmap", h1("Shares vs Topic Heatmap"), plotOutput("categoricalHeatmap")),
-                  tabPanel("Shares vs. Number of Links", h1("Shares vs. Number of Links"), plotOutput("interestingPlot"))
+                  tabPanel("Statistics", h1("Statistics", style = "color: navy;"), verbatimTextOutput("statistics")),
+                  tabPanel("Shares vs. Day Published", h1("Shares vs. Day Published", style = "color: navy;"), plotOutput("histograms")),
+                  tabPanel("Shares vs. Number of Links", h1("Shares vs. Number of Links", style = "color: navy;"), plotOutput("interestingPlot")),
+                  tabPanel("Shares vs. Topic Heatmap", h1("Shares vs. Topic Heatmap", style = "color: navy;"), plotOutput("categoricalHeatmap")),
+                  tabPanel("Shares vs. Title Length", h1("Shares vs. Title Length", style = "color: navy;"), plotOutput("sharesVsTitleLength"))
       )
     )
   )
@@ -135,14 +135,14 @@ server <- function(input, output) {
     }
   })
 
-  # Render the scatterplot of shares vs. title length
-  output$sharesVsTitleLength <- renderPlot({
+  # Render the scatterplot of shares vs. number of links
+  output$interestingPlot <- renderPlot({
     data <- inFile()
     if (!is.null(data)) {
-      ggplot(data, aes(x = n_tokens_title, y = shares)) +
-        geom_point() +
-        labs(title = "Scatterplot of Shares vs. Title Length",
-             x = "Number of Words in Title",
+      ggplot(data, aes(x = num_hrefs, y = shares)) +
+        geom_point(color = "navy") +
+        labs(title = "Scatterplot of Shares vs. Number of Links",
+             x = "Number of Links",
              y = "Number of Shares") +
         theme_minimal() +
         theme(plot.title = element_text(hjust = 0.5))
@@ -191,15 +191,15 @@ server <- function(input, output) {
     }
   })
 
-  # Render the scatterplot of shares vs. number of links
-  output$interestingPlot <- renderPlot({
+  # Render the scatterplot of shares vs. title length
+  output$sharesVsTitleLength <- renderPlot({
     data <- inFile()
     if (!is.null(data)) {
-      ggplot(data, aes(x = num_hrefs, y = shares)) +
-        geom_point() +
-        labs(title = "Scatterplot of Shares vs. Number of Links",
-             x = "Number of Links",
-             y = "Number of Shares") +
+      ggplot(data, aes(x = n_tokens_title, y = shares)) +
+        geom_point(color = "navy") +
+        labs(title = "Scatterplot of Shares vs. Title Length",
+            x = "Number of Words in Title",
+            y = "Number of Shares") +
         theme_minimal() +
         theme(plot.title = element_text(hjust = 0.5))
     }
