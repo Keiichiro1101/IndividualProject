@@ -1,10 +1,13 @@
+# Load required libraries
 library(shinyjs)
 library(shiny)
 library(ggplot2)
 library(corrplot)
 
+# Set Shiny option for maximum request size
 options(shiny.maxRequestSize = 100 * 1024^2)
 
+# Define the user interface (UI)
 ui <- fluidPage(
   tags$head(
     tags$style(HTML('
@@ -75,8 +78,10 @@ ui <- fluidPage(
   )
 )
 
+# Define the server logic
 server <- function(input, output) {
 
+  # Reactive expression for uploaded file
   inFile <- reactive({
     tmp <- input$file
     if (is.null(tmp)) {
@@ -87,14 +92,17 @@ server <- function(input, output) {
     }
   })
 
+  # Render the uploaded file in a data table
   output$outFile <- renderDataTable({
     data.frame(inFile())
   })
 
+  # Animate data table when all rows are selected
   observeEvent(input$outFile_rows_all, {
     shinyjs::animate("outFile", animation = "fadeIn")
   })
 
+  # Render summary statistics
   output$statistics <- renderPrint({
     data <- inFile()
     if (!is.null(data)) {
@@ -102,6 +110,7 @@ server <- function(input, output) {
     }
   })
 
+  # Render the histogram of shares vs. day published
   output$histograms <- renderPlot({
     data <- inFile()
     if (!is.null(data)) {
@@ -126,6 +135,7 @@ server <- function(input, output) {
     }
   })
 
+  # Render the scatterplot of shares vs. title length
   output$sharesVsTitleLength <- renderPlot({
     data <- inFile()
     if (!is.null(data)) {
@@ -139,6 +149,7 @@ server <- function(input, output) {
     }
   })
 
+# Render the categorical heatmap of shares vs. topic
 output$categoricalHeatmap <- renderPlot({
   data <- inFile()
   if (!is.null(data)) {
@@ -180,6 +191,7 @@ output$categoricalHeatmap <- renderPlot({
   }
 })
 
+  # Render the scatterplot of shares vs. number of links
   output$interestingPlot <- renderPlot({
     data <- inFile()
     if (!is.null(data)) {
@@ -193,6 +205,7 @@ output$categoricalHeatmap <- renderPlot({
     }
   })
 
+  # Define download link for data description PDF
   output$dataDescriptionLink <- downloadHandler(
     filename = function() {
       "dataDescription.pdf"
@@ -202,6 +215,7 @@ output$categoricalHeatmap <- renderPlot({
     }
   )
 
+  # Define download link for the dataset in CSV format
   output$dataDownloadLink <- downloadHandler(
     filename = function() {
     "data.csv"
@@ -212,4 +226,5 @@ output$categoricalHeatmap <- renderPlot({
   )
 }
 
+# Launch the Shiny app
 shinyApp(ui, server)

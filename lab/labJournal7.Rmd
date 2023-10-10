@@ -1,0 +1,73 @@
+---
+title: "labJournal7.Rmd"
+author: "Keiichiro Watanabe"
+date: "2023-10-09"
+output: pdf_document
+---
+# Part 0:
+
+
+
+
+# Part 1: R & Shiny
+## 1
+### Compare and contrast the lessons learned explained in the article with Inidividual Project
+Both the article and my individual project highlight the critical importance of having a clear purpose for data visualization tools. They emphasize the need to define a specific question or problem that the tool addresses. Additionally, both highlight the significance of adopting an audience centric approach by understanding the perspective and needs of the users. Effective communication, using understandable terms and metrics, is deemed essential for conveying information in both cases.
+
+### List five things you like or consider as well done in this project.
+1. The project had a clear and specific question in mind: assessing the risk of attending an event given its size and location. This clarity helped users understand the tool's purpose.
+
+2. The team considered the perspective of the users and chose metrics that were relatable and easy to understand. This made the tool more accessible and relatable to a wider audience.
+
+3. The project prioritized clear communication of risk information. By presenting data in a straightforward manner, it helped individuals and decision-makers make informed choices.
+
+4. The team actively engaged with users by providing contact information for questions and feedback. This level of responsiveness built trust and credibility.
+
+5. The tool reached a global audience of over 8 million users, indicating its successful implementation and wide impact.
+
+
+## 2
+1. The documentation provides a clear and concise problem statement at the beginning. It explains the need for the application by highlighting the common challenges faced when splitting teams in various contexts, from sports to company projects. This makes it easy for readers to understand the purpose of the app.
+
+2. The documentation includes a detailed explanation of the algorithm used in the app. It describes how the algorithm collects attributes from individuals, calculates team similarity, and proposes settings to ensure competitive teams with similar characteristics. This clarity in explaining the underlying logic of the app is beneficial for users who want to understand how it works.
+
+3. The documentation provides real-world examples of how the app can be used, such as the "Nossa Pelada," "Fifa," "Pokémon," "Company," and "Rstudio" examples. These examples showcase the versatility of the app and how it can be applied in different scenarios. Additionally, the option for users to upload their own data is highlighted, encouraging engagement and customization.
+
+
+## 3
+I have implemented the author's suggestion of adding good labels to make plots self-explanatory. I used the labs() function to add informative labels to my plot. For example, I added a clear title that summarizes the main finding of the plot. Instead of a generic title, I ensured that the title conveys the main insight derived from the plot.
+
+I also used the suggestion to use mathematical equations instead of text strings for labels. By replacing text with mathematical expressions using quote(), I made the labels more precise, especially when dealing with mathematical or scientific data.
+
+Title: R for Data Science (2nd Edition)
+Authors: Hadley Wickham, Mine Çetinkaya-Rundel, Garrett Grolemund
+12  Communication: 12.2 Labels
+
+## 4
+Implementing bookmarking in a Shiny app allows users to bookmark the app's current state and share it with others through a URL. This is useful when your Shiny app has complex input configurations, and you want to share specific configurations or results with others without requiring them to manually adjust input parameters. Uisng it in my app, it enhances the user experience by making the app more accessible and shareable.
+
+
+
+
+
+
+
+# Reference
+
+Name(s) of all authors: Keiichiro Watanabe, Riku Smuriga
+
+Lab: Lab Journal 6
+
+Due Monday, 8 October, 2023
+
+Written/online sources used: (enter "none" if no sources other than the textbook and course website used) : none
+
+Help obtained (Acknowledgments): none
+
+"I/we confirm that the above list of sources is complete AND that I/we have not talked to anyone else about the solution to this problem."
+
+
+
+
+
+
