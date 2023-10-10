@@ -149,47 +149,47 @@ server <- function(input, output) {
     }
   })
 
-# Render the categorical heatmap of shares vs. topic
-output$categoricalHeatmap <- renderPlot({
-  data <- inFile()
-  if (!is.null(data)) {
-    subset_data <- data[, c(
-      "data_channel_is_lifestyle",
-      "data_channel_is_entertainment",
-      "data_channel_is_bus",
-      "data_channel_is_socmed",
-      "data_channel_is_tech",
-      "data_channel_is_world",
-      "shares" # Target variable
-    )]
+  # Render the categorical heatmap of shares vs. topic
+  output$categoricalHeatmap <- renderPlot({
+    data <- inFile()
+    if (!is.null(data)) {
+      subset_data <- data[, c(
+        "data_channel_is_lifestyle",
+        "data_channel_is_entertainment",
+        "data_channel_is_bus",
+        "data_channel_is_socmed",
+        "data_channel_is_tech",
+        "data_channel_is_world",
+        "shares" # Target variable
+      )]
 
-    correlation_matrix <- cor(subset_data, method = "pearson")
+      correlation_matrix <- cor(subset_data, method = "pearson")
 
-    colnames(correlation_matrix) <- c(
-      "Lifestyle",
-      "Entertainment",
-      "Business",
-      "Social Media",
-      "Tech",
-      "World",
-      "Shares" # Target variable
-    )
+      colnames(correlation_matrix) <- c(
+        "Lifestyle",
+        "Entertainment",
+        "Business",
+        "Social Media",
+        "Tech",
+        "World",
+        "Shares" # Target variable
+      )
 
-    rownames(correlation_matrix) <- colnames(correlation_matrix)
+      rownames(correlation_matrix) <- colnames(correlation_matrix)
 
-    par(mar = c(1, 1, 1, 1))
-    corrplot(
-      correlation_matrix,
-      method = "color",
-      type = "upper",
-      tl.col = "black",
-      tl.cex = 0.7,
-      tl.srt = 45,
-      addrect = 6,
-      is.corr = FALSE # Show legend
-    )
-  }
-})
+      par(mar = c(1, 1, 1, 1))
+      corrplot(
+        correlation_matrix,
+        method = "color",
+        type = "upper",
+        tl.col = "black",
+        tl.cex = 0.7,
+        tl.srt = 45,
+        addrect = 6,
+        is.corr = FALSE # Show legend
+      )
+    }
+  })
 
   # Render the scatterplot of shares vs. number of links
   output$interestingPlot <- renderPlot({
