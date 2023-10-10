@@ -2,7 +2,7 @@
 library(ggplot2)
 library(dplyr)
 
-# Create a data frame with your time log data
+# Create a data frame with my time log data
 time_log <- data.frame(
   Week = c("Week 1", "Week 1", "Week 2", "Week 3", "Week 3", "Week 4", "Week 4", "Week 5", "Week 5", "Week 6", "Week 7", "Week 7"),
   Task = c("Data Finding", "Data Visualization", "Data Cleaning", "Data Analyzing", "Documentation", "Creating WebApp", "Data Analyzing", "Creating WebApp", "Data Visualization", "Creating WebApp", "Creating WebApp", "Documentation"),
