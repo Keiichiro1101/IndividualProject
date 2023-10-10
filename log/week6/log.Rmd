@@ -3,18 +3,18 @@ output:
   pdf_document: default
   html_document: default
 ---
-# week 4 log
+# week 6 log
 
-This week I mainly worked on creating webapp using shiny. I spent a total of 7 hours doing this task.
+This week I mainly worked on creating webapp using shiny. I spent a total of 6 hours doing this task.
 
 ```{r}
 library(ggplot2)
 
 # Create a data frame with tasks and time spent
 task_data <- data.frame(
-  Task = c("creating webapp", "creating visuals"),
-  Hours = c(5, 2),
-  Week = c("Week 4","Week 4")
+  Task = c("creating webapp"),
+  Hours = c(6),
+  Week = c("Week 6")
 )
 
 # Generate a bar chart

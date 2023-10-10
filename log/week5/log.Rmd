@@ -1,10 +1,20 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# week 5 log
+
+This week I mainly worked on creating webapp using shiny and data visualization. I spent a total of 6 hours doing this task.
+
+```{r}
 library(ggplot2)
 
 # Create a data frame with tasks and time spent
 task_data <- data.frame(
-  Task = c("Searching and Dataset", "creating visualization (chart)", "data cleaning"),
-  Hours = c(2, 0.5, 2),
-  Week = c("Week 1","Week 1", "week2")
+  Task = c("creating webapp", "creating visuals"),
+  Hours = c(4, 2),
+  Week = c("Week 5","Week 5")
 )
 
 # Generate a bar chart
@@ -15,3 +25,4 @@ ggplot(task_data, aes(x=Task, y=Hours)) +
   ylab("Hours Spent") +
   facet_wrap(~Week) +
   theme_minimal()
+```
