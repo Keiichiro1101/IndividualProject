@@ -211,7 +211,7 @@ server <- function(input, output) {
       "dataDescription.pdf"
     },
     content = function(file) {
-      file.copy("/Users/keiichiro_watanabe/Desktop/CSC324/IndividualProject/data/dataDescription.pdf", file)
+      file.copy("../finalSubmission/dataDescription.pdf", file)
     }
   )
 
@@ -221,7 +221,7 @@ server <- function(input, output) {
     "data.csv"
     },
     content = function(file) {
-      file.copy("/Users/keiichiro_watanabe/Desktop/CSC324/IndividualProject/data/OnlineNewsPopularity.csv", file)
+      file.copy("../finalSubmission/OnlineNewsPopularity.csv", file)
     }
   )
 }
